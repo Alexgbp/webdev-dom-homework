@@ -125,8 +125,10 @@ export function toggleLike( id) {
     //     return response.json();
     // })
     .then((dataResponse) => {
-      console.log(dataResponse);
-      getFetchPromise();
+      return dataResponse.json()
+    })
+    .then(() =>{
+      getFetchPromise()
     })
     .catch((error) => {
       

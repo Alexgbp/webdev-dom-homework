@@ -1,6 +1,7 @@
 import { getComments, postComment, deleteComments, toggleLike } from "./api.js";
 import { sanitazeHtml } from "./sanitazeHtml.js";
 import { renderListOfComments } from "./renderElements.js";
+import { format } from "date-fns";
 
 
 
@@ -67,7 +68,7 @@ export function getFetchPromise() {
       const newList = dataResponse.comments.map((element) => {
         return {
           name: sanitazeHtml(element.author.name),
-          data: new Date(element.date).toLocaleString().replace(",", ""),
+          data: format(element.date, 'yyyy-MM-dd hh.mm.ss'),
           comment: sanitazeHtml(element.text),
           like: element.likes,
           isLiked: element.isLiked,
@@ -76,6 +77,7 @@ export function getFetchPromise() {
       });
       listOfObject = newList;
       console.log(listOfObject);
+      console.log(newList);
       renderElements();
       isLoader = false;
     })
