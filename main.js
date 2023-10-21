@@ -68,7 +68,7 @@ export function getFetchPromise() {
       const newList = dataResponse.comments.map((element) => {
         return {
           name: sanitazeHtml(element.author.name),
-          data: format(element.date, 'yyyy-MM-dd hh.mm.ss'),
+          data: format(new Date(element.date), 'yyyy-MM-dd hh.mm.ss'),
           comment: sanitazeHtml(element.text),
           like: element.likes,
           isLiked: element.isLiked,
