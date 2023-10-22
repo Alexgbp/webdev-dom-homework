@@ -2,6 +2,9 @@ import {getFetchPromise, user} from "./main.js";
 
 
  let token = "";
+ if(localStorage.getItem("user")){
+  token = JSON.parse(localStorage.getItem("user")).token // проверяет есть ли в локал сторедж что то , если да то парсит это в обьект и кидает в переменную токен.Таким образом при рефреше аторизация не слетает
+ }
 
 export const setToken = (newToken) => {
   token = newToken
@@ -10,6 +13,9 @@ export const setToken = (newToken) => {
 export function getComments() {
   return fetch("https://wedev-api.sky.pro/api/v2/alexander-potapov/comments", {
     method: "GET",
+    headers:{
+      Authorization: `Bearer ${token}`
+    }
   })
   .then((response) => {
     if (response.status === 500) {
@@ -105,4 +111,26 @@ export function deleteComments() {
       });
    })
   }
+}
+
+
+export function toggleLike(id) {
+  return fetch(`https://wedev-api.sky.pro/api/v2/alexander-potapov/comments/${id}/toggle-like`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+    .then((dataResponse) => {
+      return dataResponse.json()
+    })
+    .then(() =>{
+      getFetchPromise()
+    })
+    .catch((error) => {
+      
+      console.log(error);
+    });
 }
