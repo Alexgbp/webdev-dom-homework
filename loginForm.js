@@ -1,6 +1,7 @@
 import { container, getFetchPromise, setAuth} from "./main.js";
 import { getAuthorization } from "./getAuthorization.js";
 import { getRegistr } from "./getRegistr.js";
+import { capitalize } from "lodash";
 
 let isMode = true;
 
@@ -54,7 +55,7 @@ export function renderFormLogin() {
       container.textContent = "Подождите, идет загрузка приложения";
       getRegistr({
         login: loginValue.value,
-        name: reg.value,
+        name: capitalize(reg.value),
         password: passwordValue.value,
       })
       .then(() =>{
