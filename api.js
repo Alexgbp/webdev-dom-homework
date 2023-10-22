@@ -3,7 +3,7 @@ import {getFetchPromise, user} from "./main.js";
 
  let token = "";
  if(localStorage.getItem("user")){
-  token = JSON.parse(localStorage.getItem("user")).token // проверяет есть ли в локал сторедж что то , есkи да то парсит это в обьект и кидает в переменную токен.Таким образом при рефреше аторизация не слетает
+  token = JSON.parse(localStorage.getItem("user")).token // проверяет есть ли в локал сторедж что то , если да то парсит это в обьект и кидает в переменную токен.Таким образом при рефреше аторизация не слетает
  }
 
 export const setToken = (newToken) => {
