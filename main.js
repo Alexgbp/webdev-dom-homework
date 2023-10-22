@@ -48,7 +48,6 @@ export function logOut() {
 
   likeButtons();
   changeComments();
-  answerOnCommnets()
   deleteComments();
 }
 renderElements();
