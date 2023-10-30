@@ -19,6 +19,7 @@ export function getAuthorization({login, password}) {
     return response.json();
   })
   .then((response) => {
+    console.log(response);
     window.localStorage.setItem("user",  JSON.stringify(
       response.user))
       setToken(response.user.token);

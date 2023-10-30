@@ -26,9 +26,8 @@ export  function setAuth(){
      user = JSON.parse(localStorage.getItem("user"))
   }
   else{
-     user = undefined;
+     user = null;
   }
-  return user;
 }
 
 setAuth()
