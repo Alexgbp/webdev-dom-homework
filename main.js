@@ -1,37 +1,51 @@
-import { getComments, postComment, deleteComments, toggleLike } from "./api.js";
+import { getComments, postComment, deleteComments, toggleLike } from "./api.js"; 
 import { sanitazeHtml } from "./sanitazeHtml.js";
 import { renderListOfComments } from "./renderElements.js";
 import { format } from "date-fns";
 
 
 
-export const container = document.querySelector(".container");
+export const container = document.querySelector(".container"); 
+// Выборка дива с классом container  чеерез DOM в него ложится та или иная часть разметки  в зависомости от условия 
+
 
 let isLoader = true; // влияет на отрисовку лоадера или списка комментариев //
-export let loadingText = true;
-export let user;
+// export let loadingText = true;
+export let user;  // Данная переменая указывает на то какое условие(какая разметка будет отображаться) выполняется// 
 
 
 
-// Создание масиива с обьектами пользователей который будет рендерится через функцию renderElements() //
-
- let listOfObject = [];
-
+// Наш массив куда ложится список комментариев//
+  let listOfObject = [];
 
 
 
-export function setAuth() {
-  
-  try {
-    user =  JSON.parse(localStorage.getItem("user"));
-  } catch  {
-     user =  undefined;
+// Функция котрая пытается определить есть ли в переменной User данные из LocalStorage.Если да то это True и значит происходит одна логика если false другая логика
+export  function setAuth(){
+  if(localStorage.getItem("user")){
+     user = JSON.parse(localStorage.getItem("user"))
   }
+  else{
+     user = undefined;
+  }
+  return user;
 }
+
 setAuth()
 
+// export function setAuth() {
+  
+//   try {
+//     user =  JSON.parse(localStorage.getItem("user"));
+//   } catch  {
+//      user =  undefined;
+//   }
+// }
+// setAuth()
 
 
+ // Функция которая срабатыввает при клике на кнопку выйти.LocalStorage.removeItem() означает что мы удаляем из локального хранилища 
+ //данные о пользователе и переприсваиваем в переменную user undefined , тем самым говорим что что мы вышли из учетки и нужно заново входить
 export function logOut() {
   localStorage.removeItem("user");
   user = null;
@@ -61,11 +75,11 @@ function showLoader() {
 showLoader();
 
 export function getFetchPromise() {
-  getComments()
+  getComments() // вызываем функцию посылающую get запрос на сервер для получения списка комментов 
     .then((dataResponse) => {
-      console.log(dataResponse);
-      const newList = dataResponse.comments.map((element) => {
-        return {
+      // console.log(dataResponse);
+      const newList = dataResponse.comments.map((element) => { // тут мы в переменную newList ложим наш обьект котрый пришел в 
+        return {                                               //dataResponse и перекодируем его в нужные нам обьект  используя метод map().Так как обьект comments приходит с сервера немного в с другими данными мы в нем исправляем данные на нужные нам данные    
           name: sanitazeHtml(element.author.name),
           data: format(new Date(element.date), 'yyyy-MM-dd hh.mm.ss'),
           comment: sanitazeHtml(element.text),
@@ -74,9 +88,7 @@ export function getFetchPromise() {
           id: element.id,
         };
       });
-      listOfObject = newList;
-      console.log(listOfObject);
-      console.log(newList);
+      listOfObject = newList;  // ложим новый обьект с нужными нам данными в перемнную listOfObject, котрорая явлеяется массив обьектов (обьявлена в main.js)
       renderElements();
       isLoader = false;
     })

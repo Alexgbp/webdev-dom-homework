@@ -114,23 +114,23 @@ export function deleteComments() {
 }
 
 
-export function toggleLike(id) {
-  return fetch(`https://wedev-api.sky.pro/api/v2/alexander-potapov/comments/${id}/toggle-like`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  )
-    .then((dataResponse) => {
-      return dataResponse.json()
-    })
-    .then(() =>{
-      getFetchPromise()
-    })
-    .catch((error) => {
+// export function toggleLike(id) {
+//   return fetch(`https://wedev-api.sky.pro/api/v2/alexander-potapov/comments/${id}/toggle-like`,
+//     {
+//       method: "POST",
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     }
+//   )
+//     .then((dataResponse) => {
+//       return dataResponse.json()
+//     })
+//     .then(() =>{
+//       getFetchPromise()
+//     })
+//     .catch((error) => {
       
-      console.log(error);
-    });
-}
+//       console.log(error);
+//     });
+// }
