@@ -1,12 +1,14 @@
-import {getFetchPromise, user} from "./main.js";
+import {getFetchPromise, user} from "./main.js"; 
 
 
- let token = "";
+ let token = ""; // в данной переменной у нас будет  харниться токен пользователя 
+
+ // Проверка : Токен записался в ЛС , но при рефреше он не исчезает из ЛС но при каких либо действияих мы полусаем Не Авторизован .Так вот , если в ЛокалСторедж есть пользователь (авторизован) то мы в перемнную token ложим обьект и его ключ (.token) и парсим  его в JSON.Таким образом при рефреше аторизация не слетает
  if(localStorage.getItem("user")){
-  token = JSON.parse(localStorage.getItem("user")).token // проверяет есть ли в локал сторедж что то , если да то парсит это в обьект и кидает в переменную токен.Таким образом при рефреше аторизация не слетает
+  token = JSON.parse(localStorage.getItem("user")).token
  }
 
-export const setToken = (newToken) => {
+export const setToken = (newToken) => {     // в переменную newToken у нас ложится обьект котрый приходит в респонс при регистрации или авторизации.Из этого респонсе берем название обьекта user.token ( тое сть у обьекта user берем ключ токен и этот токен ложим в перемнную newToken котрую в свою очередь записываем в перемнную token вктри фуркции setToken)
   token = newToken
 };
 
@@ -113,24 +115,24 @@ export function deleteComments() {
   }
 }
 
-
-// export function toggleLike(id) {
-//   return fetch(`https://wedev-api.sky.pro/api/v2/alexander-potapov/comments/${id}/toggle-like`,
-//     {
-//       method: "POST",
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     }
-//   )
-//     .then((dataResponse) => {
-//       return dataResponse.json()
-//     })
-//     .then(() =>{
-//       getFetchPromise()
-//     })
-//     .catch((error) => {
-      
-//       console.log(error);
-//     });
-// }
+// Функция котрая приклеивает эндпоинт к нашему URL , принимает на вход парметр id , принимает в теле запроса метод POST и заголовок 
+// Authorization: `Bearer ${token}` который дает понять что мы авторизованны.Токен всегда начинается со слова Bearer( в код )в LS этого слова нет
+export function toggleLike(id) {
+  return fetch(`https://wedev-api.sky.pro/api/v2/alexander-potapov/comments/${id}/toggle-like`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+    .then((dataResponse) => {
+      return dataResponse.json()  // респонсе включает всебя или true или false (лайк нажат или убран)
+    })
+    .then(() =>{
+      getFetchPromise() // Функция получения списка комментотв с методом GET в теле запроса и с функцией Рендер разметки внутри себя, нужна что бы отрисовать лайк пользователю
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+}

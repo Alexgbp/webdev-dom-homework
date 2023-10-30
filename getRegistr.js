@@ -10,7 +10,6 @@ export function getRegistr({login, name, password}){
       password,
     }),
   }).then((response) => {
-    console.log(response);
     if(response.status === 400){
       throw new Error("Такой пользователь уже есть")
     }
@@ -20,6 +19,7 @@ export function getRegistr({login, name, password}){
     return response.json();
   })
   .then((response) =>{
+    console.log(response);
     window.localStorage.setItem("user",  JSON.stringify(
         response.user))
         setToken(response.user.token)
