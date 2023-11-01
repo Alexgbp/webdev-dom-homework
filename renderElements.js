@@ -3,6 +3,8 @@ import { renderFormLogin } from "./loginForm.js";
 import { user, logOut, renderElements } from "./main.js";
 import { container } from "./main.js";
 
+
+// Функция отрисовывает весь контент со списком постов в приложении .Принимает array(listOfObject в main.js)
 export function renderListOfComments(array){
 
     let listOfElements = array.map((element, index) => {
@@ -28,9 +30,12 @@ export function renderListOfComments(array){
         </li>`;
       })
         .join("");
-      container.innerHTML = `<ul class="comments">${listOfElements}</ul>`;
+      container.innerHTML = `<ul class="comments">${listOfElements}</ul>`; // в наш container ложится перемнная listOfElements
+                                                                            // И в ней содержатся все комментарии
 
       if(!user){
+        // Если в перемннной user что то есть то к списку комментов добавляется плашка Пройдите авторизацию ,без всякой формы
+        // И при клике на эту плашку запускается форма Входа 
         const textLoader = `<span>Пройдите<a class="loading" href="#"> авторизацию</a></span>`
         container.innerHTML += textLoader
         const loading = document.querySelector(".loading")
@@ -38,13 +43,14 @@ export function renderListOfComments(array){
             renderFormLogin()
         })
       }else{
+        // А если пользователь авторизован то к списку постов добавляется форма Добавления коммента (исходя из логики функции formForComments)
         const exitButton = `<button class="exit-button">Выйти</button>`
         container.innerHTML += exitButton;
         formForComments()
         const exitBtn = document.querySelector(".exit-button")
         exitBtn.addEventListener("click", () => {
           logOut();
-          renderElements();
+          renderElements(); 
         })
       }
 }

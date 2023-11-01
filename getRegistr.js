@@ -1,5 +1,6 @@
 import { setToken } from "./api.js";
 
+// та же логика как и в фугкции Входа
 
 export function getRegistr({login, name, password}){
     return fetch("https://wedev-api.sky.pro/api/user", {
@@ -20,7 +21,7 @@ export function getRegistr({login, name, password}){
   })
   .then((response) =>{
     console.log(response);
-    window.localStorage.setItem("user",  JSON.stringify(
+    localStorage.setItem("user",  JSON.stringify(
         response.user))
         setToken(response.user.token)
   })

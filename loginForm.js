@@ -3,7 +3,7 @@ import { getAuthorization } from "./getAuthorization.js";
 import { getRegistr } from "./getRegistr.js";
 import { capitalize } from "lodash";
 
-let isMode = true;
+let isMode = true; // Данный флаг(переключатель) указывает на то что будет отрисованно.Либо форма регистрации либо форма входа
 
  
 
@@ -23,17 +23,19 @@ export function renderFormLogin() {
     </div>
   </div>`;
 
-  container.innerHTML = loginForm;
+  container.innerHTML = loginForm; // ложим в container только нашу форму входа/ регистрации
+
+
+  let buttonReg = document.getElementById("button-reg");
+  buttonReg.addEventListener("click", () => {
+    isMode = !isMode;  // при клике на кнопку зарегистрироваться/ к форме входа у нас идет переключение флага isMode на противоположеный(true становится false или на оборот)
+    renderFormLogin()  // повтроно вызываем функции отрисовки формы входа/ регистрации иначе не будет отоьражться переключение между формами
+  })
 
   const buttonLogin = document.getElementById("button-login");
- 
 
-  let buttonToggle = document.getElementById("button-reg");
-  buttonToggle.addEventListener("click", () => {
-    isMode = !isMode;
-    renderFormLogin() 
-  })
   if(isMode){
+    // IsMode если тру то при клике на кнопку вход срабатывает функция getAuthorization которая отвечает за вход 
     buttonLogin.addEventListener("click", () => {
       const loginValue = document.getElementById("login");
       const passwordValue = document.getElementById("password");
@@ -43,11 +45,16 @@ export function renderFormLogin() {
         password: passwordValue.value,
       })
       .then(() => {
+        // в этом then после того как отработала функция  getAuthorization у нас в перемннную токен ложится newToken
+        // за это отвечает функция SetToken и отрабатвает потом функция getFetchPromise получающая актуальный список постов с сервера
+        // и рендерящая их на странице
         setAuth();
         getFetchPromise();
       })
     });
   }else{
+    // Если isMode false то при клике на кнопку К форме входа отрабатывает обработчик ( обработчик на кнопке Зарегаться, К форме входа)
+    // имеет один и тот же обработчик , он просто переходит с кнопки на кнопку 
     buttonLogin.addEventListener("click", () =>{
       const reg = document.getElementById("nameUser");
       const loginValue = document.getElementById("login");

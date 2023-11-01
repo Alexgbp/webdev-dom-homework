@@ -32,15 +32,7 @@ export  function setAuth(){
 
 setAuth()
 
-// export function setAuth() {
-  
-//   try {
-//     user =  JSON.parse(localStorage.getItem("user"));
-//   } catch  {
-//      user =  undefined;
-//   }
-// }
-// setAuth()
+
 
 
  // Функция которая срабатыввает при клике на кнопку выйти.LocalStorage.removeItem() означает что мы удаляем из локального хранилища 
@@ -76,7 +68,7 @@ showLoader();
 export function getFetchPromise() {
   getComments() // вызываем функцию посылающую get запрос на сервер для получения списка комментов 
     .then((dataResponse) => {
-      const newList = dataResponse.comments.map((element) => { // тут мы в переменную newList ложим наш обьект котрый пришел в 
+      const newList = dataResponse.comments.map((element) => { // тут мы в переменную newList ложим наш обьект который пришел в 
         return {                                               //dataResponse и перекодируем его в нужные нам обьект  используя метод map().Так как обьект comments приходит с сервера немного в с другими данными мы в нем исправляем данные на нужные нам данные    
           name: sanitazeHtml(element.author.name),
           data: format(new Date(element.date), 'yyyy-MM-dd hh.mm.ss'),
